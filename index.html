@@ -71,4 +71,10 @@ $('noteForm').addEventListener('submit',e=>{e.preventDefault();let n={grade:$('g
 $('toggleAdmin').onclick=()=>{let c=$('adminContent');c.classList.toggle('hidden');$('toggleAdmin').textContent=c.classList.contains('hidden')?'Show manager':'Hide manager'};
 ['classFilter','subjectFilter'].forEach(id=>$(id).addEventListener('change',render));$('search').addEventListener('input',render);render();
 </script>
-</body></html>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/Saramei/sw.js");
+  });
+}
+</script></body></html>
