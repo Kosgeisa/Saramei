@@ -1,0 +1,18 @@
+{
+"name": "SARAMEI Students Notes",
+"short_name": "SARAMEI",
+"description": "Study notes for students by grade, form and subject.",
+"start_url": "/Saramei/",
+"scope": "/Saramei/",
+"display": "standalone",
+"background_color": "#ffffff",
+"theme_color": "#123b8a",
+"icons": [
+{
+"src": "/Saramei/icon.svg",
+"sizes": "any",
+"type": "image/svg+xml",
+"purpose": "any"
+}
+]
+}
