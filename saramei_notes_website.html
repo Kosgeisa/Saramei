@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SARAMEI | Student Notes</title>
+<style>
+:root{--ink:#17263d;--muted:#64748b;--brand:#315be8;--soft:#eef3ff;--line:#e4eaf3;--bg:#f7f9fd}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink)}
+header{background:white;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:2}.nav{max-width:1100px;margin:auto;padding:15px 22px;display:flex;justify-content:space-between;align-items:center;gap:16px}.logo{font-weight:850;font-size:1.25rem;letter-spacing:-.5px}.logo span{color:var(--brand)}button,.btn{border:0;border-radius:11px;padding:11px 16px;font-weight:700;cursor:pointer;background:var(--brand);color:white}.btn.secondary,button.secondary{background:white;color:var(--ink);border:1px solid var(--line)}
+main{max-width:1100px;margin:auto;padding:36px 22px 60px}.hero{background:linear-gradient(120deg,#162b54,#315be8);border-radius:24px;padding:34px;color:white;display:grid;grid-template-columns:1.3fr .7fr;gap:20px;align-items:center}.hero h1{font-size:clamp(2rem,4vw,3.2rem);line-height:1.08;letter-spacing:-1.4px;margin:8px 0 12px}.hero p{color:#dce6ff;max-width:550px}.tag{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#bcd0ff}.hero-card{background:#ffffff18;border:1px solid #ffffff38;border-radius:18px;padding:22px}.hero-card strong{font-size:2.2rem;display:block}.filters{display:grid;grid-template-columns:repeat(3,1fr) auto;gap:12px;margin:24px 0 12px}select,input,textarea{width:100%;padding:12px;border:1px solid #d9e1ee;border-radius:10px;background:white;color:var(--ink);font:inherit}.section-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin:28px 0 16px}.section-head h2{margin:0;font-size:1.55rem}.sub{color:var(--muted);font-size:.92rem}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{background:white;border:1px solid var(--line);border-radius:17px;padding:19px;box-shadow:0 5px 18px #1b376508;display:flex;flex-direction:column;gap:10px}.pill{display:inline-block;background:var(--soft);color:var(--brand);font-size:.77rem;font-weight:800;border-radius:99px;padding:5px 10px;width:max-content}.card h3{margin:0;font-size:1.12rem}.card p{margin:0;color:var(--muted);font-size:.92rem;flex:1}.card-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px}.card-foot small{color:var(--muted)}.empty{padding:30px;text-align:center;color:var(--muted);background:white;border:1px dashed #ccd6e5;border-radius:16px;grid-column:1/-1}.admin{margin-top:48px;background:white;border:1px solid var(--line);border-radius:20px;padding:24px}.admin h2{margin:0}.admin-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.admin-form{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}.admin-form .wide{grid-column:1/-1}label{display:block;font-size:.85rem;font-weight:750;margin-bottom:5px}.admin-note{background:#fff8e8;color:#7b5414;border-radius:10px;padding:12px;font-size:.86rem;margin-top:14px}.hidden{display:none}footer{text-align:center;color:var(--muted);font-size:.85rem;padding:24px}a{color:var(--brand);font-weight:750}
+@media(max-width:760px){.hero{grid-template-columns:1fr}.hero-card{display:none}.filters{grid-template-columns:1fr 1fr}.filters button{grid-column:1/-1}.grid{grid-template-columns:1fr 1fr}.admin-form{grid-template-columns:1fr}.admin-form .wide{grid-column:auto}}
+@media(max-width:500px){.grid{grid-template-columns:1fr}.nav{padding:12px 16px}main{padding:24px 16px 44px}.hero{padding:24px}.filters{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="nav"><div class="logo">SARAMEI 📚</div><button class="secondary" onclick="document.querySelector('#admin').scrollIntoView({behavior:'smooth'})">Notes manager</button></div></header>
+<main>
+<section class="hero"><div><div class="tag">Your learning library</div><h1>Find the notes.<br>Focus on learning.</h1><p>Choose your grade or form, then subject, and explore study notes prepared for your class.</p></div><div class="hero-card"><span class="tag">STUDY SMARTER</span><strong>Learn at<br>your pace.</strong><p>Clear notes, one subject at a time.</p></div></section>
+<div class="section-head"><div><h2>Browse notes</h2><div class="sub">Filter by class and subject to find your materials.</div></div><div class="sub" id="count"></div></div>
+<div class="filters">
+<select id="classFilter" aria-label="Choose grade or form"><option value="">All grades / forms</option></select>
+<select id="subjectFilter" aria-label="Choose subject"><option value="">All subjects</option></select>
+<input id="search" placeholder="Search notes…" aria-label="Search notes">
+<button onclick="render()">Find notes</button>
+</div>
+<div class="grid" id="notes"></div>
+<section class="admin" id="admin">
+<div class="admin-top"><div><h2>Notes manager</h2><div class="sub">Add notes for students to browse.</div></div><button class="secondary" id="toggleAdmin">Hide manager</button></div>
+<div id="adminContent">
+<form class="admin-form" id="noteForm">
+<div><label for="grade">Grade / Form / Class *</label><input id="grade" placeholder="e.g. Grade 8 or Form 2" required></div>
+<div><label for="subject">Subject *</label><input id="subject" placeholder="e.g. Mathematics" required></div>
+<div class="wide"><label for="title">Notes title *</label><input id="title" placeholder="e.g. Introduction to fractions" required></div>
+<div class="wide"><label for="description">Short description</label><input id="description" placeholder="What will students learn?"></div>
+<div class="wide"><label for="url">Notes file URL (PDF or document link)</label><input id="url" type="url" placeholder="https://…"></div>
+<div class="wide"><label for="body">Or paste notes text</label><textarea id="body" rows="5" placeholder="Paste prepared notes here (optional)"></textarea></div>
+<div class="wide"><button type="submit">Publish note in this demo</button></div>
+</form>
+<div class="admin-note"><strong>Demo limitation:</strong> This prototype saves notes only in this browser using local storage. Students using other phones cannot see them, and this manager has no secure login. For a live school website, connect a real database, file storage, and password-protected teacher/admin accounts. Only publish materials you have permission to share.</div>
+</div>
+</section>
+</main>
+<footer>SARAMEI • Student Notes Library</footer>
+<script>
+const starter=[
+{grade:"Grade 8",subject:"Mathematics",title:"Working with fractions",description:"A sample card showing how lesson notes appear.",body:"Fractions represent parts of a whole. A fraction has a numerator and denominator.\\n\\nExample: 1/2 + 1/4 = 2/4 + 1/4 = 3/4.",url:""},
+{grade:"Form 2",subject:"Biology",title:"Introduction to cells",description:"Explore the basic unit of life.",body:"The cell is the basic structural and functional unit of living organisms. Plant and animal cells share some structures but also have differences.",url:""},
+{grade:"Grade 9",subject:"English",title:"Reading comprehension",description:"A sample English learning resource.",body:"Read a passage carefully, identify its main idea, then support answers with evidence from the text.",url:""}
+];
+let notes;try{notes=JSON.parse(localStorage.getItem('studyshelf_notes'))||starter}catch{notes=starter}
+const $=id=>document.getElementById(id);
+function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function save(){localStorage.setItem('studyshelf_notes',JSON.stringify(notes))}
+function populate(){
+let cls=[...new Set(notes.map(n=>n.grade))].sort(),subs=[...new Set(notes.map(n=>n.subject))].sort();
+let oldC=$('classFilter').value,oldS=$('subjectFilter').value;
+$('classFilter').innerHTML='<option value="">All grades / forms</option>'+cls.map(x=>`<option>${esc(x)}</option>`).join('');
+$('subjectFilter').innerHTML='<option value="">All subjects</option>'+subs.map(x=>`<option>${esc(x)}</option>`).join('');
+$('classFilter').value=oldC;$('subjectFilter').value=oldS;
+}
+function render(){
+populate();let g=$('classFilter').value,s=$('subjectFilter').value,q=$('search').value.toLowerCase().trim();
+let filtered=notes.filter(n=>(!g||n.grade===g)&&(!s||n.subject===s)&&[n.title,n.grade,n.subject,n.description].join(' ').toLowerCase().includes(q));
+$('count').textContent=`${filtered.length} resource${filtered.length===1?'':'s'}`;
+$('notes').innerHTML=filtered.length?filtered.map(n=>`<article class="card"><span class="pill">${esc(n.grade)} · ${esc(n.subject)}</span><h3>${esc(n.title)}</h3><p>${esc(n.description||'Study notes for your class.')}</p><div class="card-foot"><small>Learning notes</small>${n.url?`<a href="${esc(n.url)}" target="_blank" rel="noopener">Open notes ↗</a>`:`<button onclick="openNote(${notes.indexOf(n)})">Read notes</button>`}</div></article>`).join(''):'<div class="empty">No notes match these filters yet. Try another class or subject.</div>';
+}
+function openNote(i){let n=notes[i];let w=window.open('','_blank');if(!w){alert(n.body||'No notes text added.');return}w.document.write('<!doctype html><meta name="viewport" content="width=device-width"><title>'+esc(n.title)+'</title><style>body{font:17px/1.7 system-ui;max-width:760px;margin:40px auto;padding:0 20px;color:#17263d}h1{line-height:1.2}pre{white-space:pre-wrap;font:inherit}</style><p>'+esc(n.grade)+' · '+esc(n.subject)+'</p><h1>'+esc(n.title)+'</h1><pre>'+esc(n.body||'No text has been added for this resource.')+'</pre>');w.document.close()}
+$('noteForm').addEventListener('submit',e=>{e.preventDefault();let n={grade:$('grade').value.trim(),subject:$('subject').value.trim(),title:$('title').value.trim(),description:$('description').value.trim(),url:$('url').value.trim(),body:$('body').value.trim()};notes.unshift(n);save();e.target.reset();render();alert('Note added to this browser demo.')});
+$('toggleAdmin').onclick=()=>{let c=$('adminContent');c.classList.toggle('hidden');$('toggleAdmin').textContent=c.classList.contains('hidden')?'Show manager':'Hide manager'};
+['classFilter','subjectFilter'].forEach(id=>$(id).addEventListener('change',render));$('search').addEventListener('input',render);render();
+</script>
+</body></html>
