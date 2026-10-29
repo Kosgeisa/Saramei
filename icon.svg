@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="90" fill="#123b8a"/>
+  <path d="M90 170 L256 85 L422 170 L256 255 Z" fill="#ffc928"/>
+  <path d="M155 205 V255 Q256 320 357 255 V205 L256 270 Z" fill="#ffc928"/>
+  <path d="M90 300 Q175 270 256 340 Q337 270 422 300 V385 Q337 355 256 425 Q175 355 90 385 Z" fill="#ffffff"/>
+  <path d="M256 330 C220 285 190 320 210 350 L256 400 L302 350 C322 320 292 285 256 330 Z" fill="#123b8a"/>
+  <text x="256" y="465" font-size="42" font-weight="bold" text-anchor="middle" fill="#ffc928">SARAMEI</text>
+</svg>
